@@ -325,17 +325,18 @@ export class OrientationComponent implements OnInit {
       return;
     }
 
-    if (!this.domaineId || !this.objectifs) {
+    const domaineId = this.domaineId;
+    if (!domaineId || !this.objectifs) {
       this.toast.error('Veuillez sélectionner un domaine et préciser vos objectifs.');
       return;
     }
 
     this.loading.set(true);
     this.api.orienterProfil({
-      domaineId: this.domaineId,
-      niveauActuel: this.niveauActuel,
-      objectifs: this.objectifs,
-      tempsDisponibleHeuresParSemaine: this.tempsDisponible
+      domaineId,
+      niveau: this.niveauActuel,
+      objectif: this.objectifs,
+      heuresParSemaine: Number(this.tempsDisponible)
     }).subscribe({
       next: (res) => {
         this.loading.set(false);
