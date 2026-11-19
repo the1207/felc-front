@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, map, tap } from 'rxjs';
 import { AuthResponse, Role } from '../models/models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { AuthResponse, Role } from '../models/models';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private base = environment.apiUrl;
 
   private readonly STORAGE_KEY = 'felc_auth_user';
 
@@ -33,14 +35,14 @@ export class AuthService {
   }
 
   login(credentials: { email: string; motDePasse: string }): Observable<AuthResponse> {
-    return this.http.post<unknown>('/api/auth/login', credentials).pipe(
+    return this.http.post<unknown>(`${this.base}/api/auth/login`, credentials).pipe(
       map(response => this.normalize(response)),
       tap(response => this.saveAuth(response))
     );
   }
 
   register(data: unknown): Observable<AuthResponse> {
-    return this.http.post<unknown>('/api/auth/register', data).pipe(
+    return this.http.post<unknown>(`${this.base}/api/auth/register`, data).pipe(
       map(response => this.normalize(response)),
       tap(response => this.saveAuth(response))
     );
