@@ -1,1 +1,1 @@
-web: npm run build && npx serve dist/felc-front/browser -s -l $PORT
+web: npm run build -- --configuration production && serve dist/felc-front/browser -s -l $PORT
